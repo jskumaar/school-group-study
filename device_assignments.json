@@ -1,0 +1,51 @@
+{
+  "participants": [
+    {
+      "label": "red",
+      "cam_device": 1,
+      "mic_device": 26,
+      "mic_channel": 0,
+      "mic_name": "Microphone (DJI MIC MINI)",
+      "channels_on_device": 2
+    },
+    {
+      "label": "blue",
+      "cam_device": 2,
+      "mic_device": 26,
+      "mic_channel": 1,
+      "mic_name": "Microphone (DJI MIC MINI)",
+      "channels_on_device": 2
+    },
+    {
+      "label": "yellow",
+      "cam_device": 3,
+      "mic_device": 27,
+      "mic_channel": 0,
+      "mic_name": "Headset (DJI Mic Mini-B3549F Hands-Free)",
+      "channels_on_device": 1
+    }
+  ],
+  "audio_devices": [
+    {
+      "device": 26,
+      "name": "Microphone (DJI MIC MINI)",
+      "channels": 2,
+      "labels": [
+        "mic_red",
+        "mic_blue"
+      ],
+      "samplerate": 48000,
+      "is_stereo_pair": true
+    },
+    {
+      "device": 27,
+      "name": "Headset (DJI Mic Mini-B3549F Hands-Free)",
+      "channels": 1,
+      "labels": [
+        "mic_yellow"
+      ],
+      "samplerate": 16000,
+      "is_stereo_pair": false
+    }
+  ]
+}
