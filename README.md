@@ -37,7 +37,9 @@ All code lives in [recording_system/](recording_system/). Deeper reference docs 
 |---|---|---|
 | USB webcams | 3 | Identical models are fine (the lab has used EMEET SmartCam C960). Mount so each one sees one child. |
 | Powered USB 3.0 hub | 1 | Strongly recommended. Three cameras on one unpowered or USB 2.0 hub will drop frames. |
-| DJI lavalier mic system | 3 transmitters | Used with a **stereo USB receiver** (two transmitters → left/right channels of one USB device) **plus** a second receiver or Bluetooth unit for the third child. |
+| DJI lavalier mic system | 3 transmitters | Used with a **stereo USB receiver** (two transmitters → left/right channels of one USB device) **plus** a second **wired USB receiver** for the third child. **Do not use Bluetooth for any mic** (see warning below). |
+
+> ⚠️ **Do not use Bluetooth for the microphones.** A Bluetooth link can drop mid-session, and that child's audio can be lost for the rest of the session with no way to recover it. Bluetooth "Hands-Free" mode also records at a low telephone-quality 16 kHz. Connect every DJI receiver to the computer by USB cable, and confirm each one appears in the audio device list before the session. If you only have one stereo receiver, get a second USB receiver rather than falling back to Bluetooth.
 | Insta360 camera | 1 | Operated manually. Must be able to hear the room (it records the sync beeps). |
 | Speaker / computer audio output | 1 | The sync beeps play through the computer's **default output device**; the mics and the Insta360 pick them up acoustically. Volume must be audible. |
 | Computer | 1 | Written for **Windows 11** (DirectShow cameras, WASAPI audio). macOS/Linux are partially supported; see [recording_system/SETUP.md](recording_system/SETUP.md). |
@@ -181,7 +183,7 @@ BLUE    cam → device 2  mic → device 26 ch1R  (Microphone (DJI MIC MINI))
 YELLOW  cam → device 3  mic → device 27 ch0    (Headset (DJI Mic Mini-B3549F Hands-Free))
 ```
 
-Here red and blue share one stereo receiver (device 26: red is the left channel, blue the right) and yellow is a separate Bluetooth/mono device (27).
+Here red and blue share one stereo receiver (device 26: red is the left channel, blue the right) and yellow is a separate mono device (27). In the lab's current saved file, device 27 is a Bluetooth "Hands-Free" mic: **replace it with a wired USB receiver** (see the Bluetooth warning in section 1).
 
 ### 5.3 Verify with the paired verification panel (do not skip)
 
@@ -331,7 +333,7 @@ More detail: [recording_system/TROUBLESHOOT.md](recording_system/TROUBLESHOOT.md
 ## 11. Known quirks
 
 - **Mic sample rates can differ per child.** Each audio device is opened at its own native rate. In the lab's configuration the stereo receiver records at 48 000 Hz and the Bluetooth headset-profile mic at **16 000 Hz**, so `mic_yellow.wav` has lower bandwidth than the other two. `session_log.json` records `audio_sr` as the 44 100 Hz config default, which does not reflect these per-device rates; check the WAV headers instead.
-- **Bluetooth "Hands-Free" mics** (the `Headset (… Hands-Free)` device) use a low-quality telephone profile. A wired/USB receiver for all three children would give more uniform audio.
+- **Bluetooth mics: don't.** The `Headset (… Hands-Free)` device is a Bluetooth link that can disconnect mid-session and uses a low-quality telephone profile. Use wired USB receivers for all three children.
 - **Video codec.** `VIDEO_CODEC = 'mp4v'` is MPEG-4 Part 2, not H.264, despite the comment in `config.py`. Files play normally but are larger than H.264.
 - **Camera names are generic** (`Camera 0`, `Camera 1`, …) because OpenCV does not expose device names. Always identify cameras visually, never by name.
 - **The Insta360 is not controlled by software.** Forgetting to start it before pressing ENTER, or to stop it afterward, is the most common operator error.
@@ -341,4 +343,4 @@ More detail: [recording_system/TROUBLESHOOT.md](recording_system/TROUBLESHOOT.md
 
 ## 12. Data handling
 
-Session folders contain **video and audio of children**. They are written to `recording_system/outputs/`, which is **not** excluded by `.gitignore`: do not `git add` it. Store and share recordings only under the study's IRB-approved data-management plan, and never commit raw recordings to GitHub.
+Session folders contain **video and audio of children**. They are written to `recording_system/outputs/`, which is excluded by `.gitignore` so it can't be committed by accident. Don't force-add it. Store and share recordings only under the study's IRB-approved data-management plan, and never commit raw recordings to GitHub.

@@ -222,3 +222,4 @@ __marimo__/
 # Project-specific
 .claude/
 analysis/
+recording_system/outputs/
